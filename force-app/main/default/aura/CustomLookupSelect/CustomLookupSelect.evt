@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event will be fored whenever a record will be selected form lookup" >
+    <aura:attribute name="record" type="Object" />
+</aura:event>

@@ -1,0 +1,14 @@
+.THIS .address {
+    margin: auto;
+    width: 50%;
+    padding: 6px;
+}
+.THIS.searchBox{
+    border-style: solid;
+    max-width: 400px;
+    height: 47px;
+    border-color: white;
+    background : white;
+    border-width: 2px;
+    border-radius: 8px;
+}

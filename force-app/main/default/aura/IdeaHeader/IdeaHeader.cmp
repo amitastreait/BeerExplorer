@@ -1,0 +1,15 @@
+<aura:component >
+    <div class="slds-page-header">
+        <div class="slds-media">
+            <div class="slds-media__figure">
+                <span class="slds-icon_container" title="Description of icon when needed">
+                    <lightning:icon iconName="utility:light_bulb" size="large" alternativeText="Indicates approval" class="slds-icon-text-default" />
+                </span>
+            </div>
+            <div class="slds-media__body">
+                <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Ideas">Ideas</h1>
+                <p class="slds-text-body_small slds-line-height_reset">Managing Ideas in Lightning was Never so Easy!</p>
+            </div>
+        </div>
+    </div>
+</aura:component>

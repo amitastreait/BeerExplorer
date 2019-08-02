@@ -1,0 +1,42 @@
+<aura:component controller="IdeaComponentController" >
+    <aura:attribute name="userId"   type="String" default="005XXXXXXXX" />
+    <aura:attribute name="Votes"    type="Object" />
+    <aura:attribute name="Idea"     type="Object" />
+    <aura:attribute name="isFound"  type="Boolean" />
+    <aura:attribute name="isVoted"  type="Boolean" />
+    <aura:handler   name="change"   value="{!v.Votes}" action="{!c.doInit}"/>
+    <aura:handler   name="init"     value="{!this}"    action="{!c.doInit}"/>
+    
+    <div class="slds-m-left_medium" >
+        <aura:if isTrue="{!v.Votes.length>0}">
+            <aura:if isTrue="{!v.isFound}">
+                <aura:if isTrue="{!v.isVoted}">
+                    <lightning:icon iconName="utility:like" alternativeText="Upvote"/>
+                    &nbsp;{!v.Idea.VoteTotal}&nbsp;<strong>Points</strong>&nbsp;
+                    <Strong style="color:green">Upvoted</Strong> 
+                </aura:if>
+				<aura:if isTrue="{!!v.isVoted}">
+                    <lightning:icon iconName="utility:dislike"  
+                                    alternativeText="DownVote"/>&nbsp;
+                    {!v.Idea.VoteTotal}&nbsp;<strong>Points</strong>&nbsp;
+                    <strong style="color:red">Downvoted</strong>
+                </aura:if>             
+            </aura:if>
+            <aura:if isTrue="{!!v.isFound}">
+                <a herf="JavaScript:void(0);" onclick="{!c.upvoteIdea}" 
+                   id="{!v.Idea.Id}">
+                    <lightning:icon iconName="utility:like"  
+                                    alternativeText="Upvote"/>
+                </a>
+                &nbsp;&nbsp;
+                {!v.Idea.VoteTotal}&nbsp;<strong>Points</strong>
+                &nbsp;&nbsp;
+                <a herf="JavaScript:void(0);" onclick="{!c.downvoteIdea}"
+                   id="{!v.Idea.Id}">
+                    <lightning:icon iconName="utility:dislike"  
+                                    alternativeText="DownVote"/>
+                </a>
+            </aura:if>
+        </aura:if>
+    </div>
+</aura:component>

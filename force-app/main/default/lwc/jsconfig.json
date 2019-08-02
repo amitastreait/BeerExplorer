@@ -1,0 +1,59 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "baseUrl": ".",
+        "paths": {
+            "c/accountList": [
+                "accountList/accountList.js"
+            ],
+            "c/contactlistlwc": [
+                "contactlistlwc/contactlistlwc.js"
+            ],
+            "c/contacttilelwc": [
+                "contacttilelwc/contacttilelwc.js"
+            ],
+            "c/dynamicLWC": [
+                "dynamicLWC/dynamicLWC.js"
+            ],
+            "c/errorPanel": [
+                "errorPanel/errorPanel.js"
+            ],
+            "c/findAccounts": [
+                "findAccounts/findAccounts.js"
+            ],
+            "c/imperativeApex": [
+                "imperativeApex/imperativeApex.js"
+            ],
+            "c/lightningExampleVerticalNavigationItemIcons": [
+                "lightningExampleVerticalNavigationItemIcons/lightningExampleVerticalNavigationItemIcons.js"
+            ],
+            "c/lightningbasecomponentlwc": [
+                "lightningbasecomponentlwc/lightningbasecomponentlwc.js"
+            ],
+            "c/newsApi": [
+                "newsApi/newsApi.js"
+            ],
+            "c/opportunityList": [
+                "opportunityList/opportunityList.js"
+            ],
+            "c/propDemo": [
+                "propDemo/propDemo.js"
+            ],
+            "c/utils": [
+                "utils/utils.js"
+            ],
+            "c/wireFunction": [
+                "wireFunction/wireFunction.js"
+            ]
+        }
+    },
+    "include": [
+        "**/*",
+        "../../../../.sfdx/typings/lwc/**/*.d.ts"
+    ],
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    }
+}

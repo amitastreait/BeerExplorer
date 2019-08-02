@@ -1,0 +1,24 @@
+<aura:component controller="AllAccounts_MapController" 
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <!-- attributes -->
+    <aura:attribute name="mapMarkers" type="Object"/>
+    <aura:attribute name="center" type="Object" />
+    <aura:attribute name="zoomLevel" type="Integer" />
+    <aura:attribute name="markersTitle" type="String" />
+    <aura:attribute name="showFooter" type="Boolean" />
+    
+    <!-- handlers-->
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    
+    <!-- the map component -->
+    <aura:if isTrue="{!v.mapMarkers.length > 0}">
+        <!-- the map component -->
+        <lightning:map
+                       mapMarkers="{! v.mapMarkers }"
+                       center="{! v.center }"
+                       zoomLevel="{! v.zoomLevel }"
+                       markersTitle="{! v.markersTitle }"
+                       showFooter="{ !v.showFooter }" >
+        </lightning:map>
+    </aura:if>
+</aura:component>

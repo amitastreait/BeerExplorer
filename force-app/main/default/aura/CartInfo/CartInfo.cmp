@@ -1,0 +1,15 @@
+<aura:component controller="CartDetailsAuraServices">
+    <aura:attribute name="recordList" type="Object" />
+    <aura:attribute name="beerNameList" type="String[]" />
+    <aura:attribute name="cartId" type="String" />
+    <aura:handler name="change" value="{!v.recordList}" action="{!c.createCartItems}"/>
+    <lightning:navigation aura:id="navigation" />
+    <lightning:layOut>
+        <lightning:layOutitem>
+            <a href="JavaScript:void(0);" onclick="{!c.goToCart}" >
+                <lightning:icon iconName="utility:cart" size="large"/>
+            </a>
+            <span style="font-size: 1.1rem;">{!v.recordList.length}</span>
+        </lightning:layOutitem>
+    </lightning:layOut>
+</aura:component>

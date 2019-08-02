@@ -1,0 +1,35 @@
+<aura:component >
+    <aura:attribute name="recordList" type="Object"/>
+    <aura:attribute name="beerId" type="String"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:attribute name="beervalue" type="string"/>
+    <div  class="slds-grid slds-wrap">
+        <!-- {!v.recordList} -->
+        {!v.recordid}
+        <aura:iteration items="{!v.recordList}" var="item">
+            <div class="slds-col slds-size_1-of-4 slds-p-around_small">
+                <lightning:card  title="{!item.Name}" footer="{!item.Brewery_Name__c}"
+                                iconName="custom:custom7">
+                    <p class="slds-p-horizontal_small">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_1-of-3">   
+                            </div>
+                            <div class="slds-col slds-size_2-of-3">
+                                Name       :  {!item.Name} <br/>
+                                Id         :  {!item.Id__c} <br/> 
+                                Alcohol %  :  {!item.Alcohol__c}
+                            </div>
+                        </div>
+                    </p>
+                    <aura:set attribute="actions">
+                        <lightning:button name="{!item.Id}" label="View Details" value="View Details"
+                                          variant="brand" onclick="{!c.showInfo}"/>
+                    </aura:set>
+                </lightning:card>
+            </div>
+        </aura:iteration>
+      <!--  <aura:if isTrue="{!v.beervalue !=null}">
+            <c:BeerDetails beerId="{!v.beervalue}" />
+        </aura:if>  -->
+    </div>
+</aura:component>

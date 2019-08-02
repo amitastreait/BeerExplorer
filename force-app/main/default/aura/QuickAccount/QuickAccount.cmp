@@ -1,0 +1,15 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId,force:hasSObjectName,force:appHostable,lightning:actionOverride,flexipage:availableForAllPageTypes" >
+	<div>
+    	<h1> I am in Quick Action </h1>
+        {!v.recordId} <br/>
+        <lightning:card title="Expense Details">
+            <aura:set attribute="actions">
+                <lightning:button label="Edit" onclick="{!c.handleEdit}"/>
+            </aura:set>
+            <p class="slds-p-horizontal_small">
+                (expense details go here)
+            </p>
+        </lightning:card>
+        <lightning:button label="Close Action" variant="brand" onclick="{!c.doClose}"/>
+    </div>
+</aura:component>

@@ -1,0 +1,10 @@
+<aura:component >
+    <!-- aura:ValueChange -->
+    <aura:attribute name="test" type="String"/>
+    <aura:handler name="change" value="{!v.test}" action="{!c.doChange}" />
+    <!-- aura:valueInit	 -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    {!v.test}
+    
+    <lightning:button value="Change Value" label="Change Value" onclick="{!c.Changevalue}"/>
+</aura:component>

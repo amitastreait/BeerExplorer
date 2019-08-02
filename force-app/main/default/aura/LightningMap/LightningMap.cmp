@@ -1,0 +1,17 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId"
+                controller="LightningMapAuraServices" access="global" >
+    <aura:attribute name="mapMarkers" type="Object" />
+    <aura:attribute name="zoomLevel" type="Integer" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:if isTrue="{!v.mapMarkers.length > 0}">
+        <div>
+            <lightning:map aura:id="accountMap"
+                           zoomLevel = "{!v.zoomLevel}"
+                           mapMarkers="{!v.mapMarkers}"
+                           markersTitle="My favorite places for lunch"
+                           showFooter="true"
+                           />
+        </div>
+    </aura:if>
+</aura:component>

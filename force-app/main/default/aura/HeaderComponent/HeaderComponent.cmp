@@ -1,0 +1,34 @@
+<aura:component >
+    <aura:attribute name="TagLine" type="String" />
+    <aura:attribute name="message" type="String" />
+    <aura:attribute name="recordList" type="Object" />
+    <aura:method name="updateCart" action="{!c.updateCart}" access="public">
+        <aura:attribute name="beerRecord" type="Object" />
+    </aura:method>
+    <div class="slds-page-header " style="background: yellowgreen;">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                    </div>
+                    <div class="slds-media__body">
+                        <div class="slds-page-header__name">
+                            <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-truncate" 
+                                          title="Rohde Corp - 80,000 Widgets">
+                                        {!v.TagLine}
+                                    </span>
+                                </h1>
+                            </div>
+                        </div>
+                        <p class="slds-page-header__name-meta">
+                            {!v.message}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <c:CartInfo recordList="{!v.recordList}" />
+        </div>
+    </div>
+</aura:component>

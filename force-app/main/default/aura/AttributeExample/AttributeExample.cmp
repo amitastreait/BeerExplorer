@@ -1,0 +1,21 @@
+<aura:component >
+    <aura:attribute name="Whom" type="String" default="SFDCPanther" access="public" />
+    <aura:attribute name="Age" type="integer" default="24" access="private" />
+    <aura:attribute name="colour" type="String[]" default="['red','blue','yellow']" access="private" />
+    <aura:attribute name="colourList" type="List" default="['red','blue','yellow']" access="private" />
+    <aura:attribute name="colourSet" type="Set" default="['red','blue','yellow']" access="private" />
+    <aura:attribute name="ContactObj" type="Contact" access="public" />
+    <!--
+    	public String Whom ='SFDCPanther';
+		public Contact ContactObj;
+    -->
+    <div class="slds-m-around_large">
+        <lightning:input aura:id="testInput" label="Enter Age" />
+        Welcome {!v.Whom}<br/>   
+        Age : {!v.Age}<br/>  
+        Color from Array of String:>>  {!v.colour[0]}<br/>
+        Color from Set:>> {!v.colourSet[1]}<br/> 
+        Color from List:>> {!v.colourList[2]} <br/>
+        <lightning:button value="Component Methods" label="Component Methods" onclick="{!c.doClick}" />
+    </div>
+</aura:component>

@@ -1,0 +1,131 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:hassObjectName"
+                controller="AddressSearchAuraService">
+    
+    <!-- Attributes which will be responsible for open/close if the modal -->
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    
+    <!-- put the field API Name for the Dynamic Values -->
+    <aura:attribute name="streetAPIName" type="String" default="ShippingStreet"/>
+    <aura:attribute name="CityAPIName" type="String" default="ShippingCity"/>
+    <aura:attribute name="CountryAPIName" type="String" default="ShippingCountry"/>
+    <aura:attribute name="StateAPIName" type="String" default="ShippingState"/>
+    <aura:attribute name="ZipAPIName" type="String" default="ShippingPostalCode"/>
+    <!-- put the field API Name for the Dynamic Values End -->
+    
+    <!-- Attributes to store the value of the Address fields in Component and Object -->
+    
+    <aura:attribute name="streetValue" type="String"/>
+    <aura:attribute name="cityValue" type="String" />
+    <aura:attribute name="countryValue" type="String" />
+    <aura:attribute name="stateValue" type="String" />
+    <aura:attribute name="zipValue" type="String" />
+    <!-- End -->
+    
+    <aura:attribute name="fields" type="List" 
+                    default="['ShippingStreet','ShippingCity','ShippingCountry',
+                             'ShippingState','ShippingPostalCode']" />
+    
+    <!-- attribute for fetching the record information of the 
+		 records based on the recordId
+	-->
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="record" type="Object" 
+                    description="The record object to be displayed"/>
+    <aura:attribute name="simpleRecord" type="Object" 
+                    description="A simplified view record object to be displayed"/>
+    <aura:attribute name="recordError" type="String" 
+                    description="An error message bound to force:recordData"/>
+    <force:recordData aura:id="recordViewer"
+                      fields="{!v.fields}"
+                      recordId="{!v.recordId}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      targetFields ="{!v.simpleRecord}"
+                      mode="EDIT"/>
+    <!-- Call the doInit method to get the recordInfo and then populate the value-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- Sobject information for which address component is -->
+    <aura:attribute name="sObjectType" type="Account" default="{
+                                                              sobjectType : 'Account',
+                                                              'ShippingStreet' : '',
+                                                              'ShippingCity' : '',
+                                                              'ShippingCountry': '',
+                                                              'ShippingState' :'',
+                                                              'ShippingPostalCode' : '',
+                                                              'Name' : ''
+                                                              }"/> 
+    
+    <!-- Handle the Select event and populate the information with selected address -->
+    <aura:handler name="addressEvent" event="c:SelectAddressEvent" action="{!c.doHandleSelect}" />
+    
+    <div class="slds-page-header" style="background:white;margin: 17px;max-width: 400px;">
+        <div class="slds-page-header__col-title">
+            <div class="slds-media__body">
+                <div class="slds-page-header__name">
+                    <div class="slds-page-header__name-title">
+                        <h1>
+                            <span class="slds-page-header__title slds-truncate" 
+                                  title="{!$Label.c.Address}">
+                                <strong>{!$Label.c.Headings}</strong>
+                            </span>
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-m-around_medium searchBox">
+       	<div class="address">
+            <a href="JavaScript:void(0);" onclick="{!c.handleSearch}" style="text-decoration:none;">
+                <lightning:icon iconName="utility:search" size="medium"></lightning:icon>
+                <strong>{!$Label.c.SerachText}</strong>
+            </a>
+        </div>
+    </div>
+    <div style="max-width: 400px;" class="slds-m-around_medium">
+        <lightning:inputAddress
+            addressLabel="{!$Label.c.Address}"
+            streetLabel="{!$Label.c.Street}"
+            cityLabel="{!$Label.c.City}"
+            countryLabel="{!$Label.c.Country}"
+            provinceLabel="{!$Label.c.State}"
+            postalCodeLabel="{!$Label.c.Zip}"
+            street="{!v.streetValue}"
+            city="{!v.cityValue}"
+            country="{!v.countryValue}"
+            province="{!v.stateValue}"
+            postalCode="{!v.zipValue}"
+            required="true"
+            fieldLevelHelp="{!$Label.c.Address}"
+            onblur = "{!c.doHandleChange}"
+        />
+    </div>
+    <aura:if isTrue="{!v.isOpen}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" 
+                 aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        Address Search
+                    </h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <c:AddressSearch/>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button variant="neutral" 
+                                      label="Cancel"
+                                      title="Cancel"
+                                      onclick="{!c.closeModel}"/>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

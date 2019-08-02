@@ -1,0 +1,5 @@
+<aura:component >
+    <lightning:button onclick="{!c.createComponent}" label="Create Input"/>
+    <lightning:button onclick="{!c.createComponentMultiple}" label="Create Components"/>
+    {!v.body}
+</aura:component>

@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="This event will be executed when any address will be selected" >
+    <aura:attribute name="selectedAddress" type="String" />
+    <aura:attribute name="place_Id" type="String" />
+</aura:event>

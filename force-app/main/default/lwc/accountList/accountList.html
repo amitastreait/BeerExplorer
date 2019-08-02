@@ -1,0 +1,32 @@
+<template>
+    <lightning-card title="Account" icon-name="standard:account">
+        <lightning-layout vertical-align="center" multiple-rows="true" >
+            <template for:each={recordList} for:item="index">
+                <lightning-layout-item key={index.Id} padding="around-small" size="6" >
+                    <P>
+                        <lightning-icon icon-name="standard:account" size="small">
+
+                        </lightning-icon>
+                        &nbsp;&nbsp; 
+                        <lightning-formatted-text value={index.Name}>
+                                
+                        </lightning-formatted-text>
+                    </P>
+                    <div>
+                        {index.Name}
+                    </div>
+                </lightning-layout-item>
+            </template>
+            <template if:true={error}>
+                <c-error-panel errors={error}></c-error-panel>
+            </template>
+        </lightning-layout>
+        <lightning-layout vertical-align="center">
+            <lightning-layout-item padding="around-small">
+                <lightning-button label="Show Toast" value="Show Toast"
+                                  variant="brand" onclick={showToast} >
+                </lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

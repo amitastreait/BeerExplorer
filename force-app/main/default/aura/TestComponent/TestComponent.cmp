@@ -1,0 +1,105 @@
+<aura:component implements="lightning:isUrlAddressable">
+    <aura:attribute name="isCheckout" type="Boolean" />
+    <lightning:navigation aura:id="navigation" />
+     <aura:attribute name="record" type="Object" />
+    <aura:attribute name="recordError" type="String" />
+    <aura:attribute name="selectedAddress" type="Object" />
+    
+     <!-- LDS for Create Record -->
+    <force:recordData aura:id="recordCreator"
+                      layoutType="FULL"
+                      mode="EDIT"
+                      targetRecord="{!v.record}"
+                      targetFields="{!v.addressBook}"
+                      targetError="{!v.recordError}"/>
+    
+          <div class="c-container">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem padding="around-small" size="12">
+                    <div class="page-header">
+                        <img src="{!$Resource.Beer_Explorer}" 
+                             style="margin-top: -22px;height: 100px;" />
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="12">
+                    <lightning:layout>
+                        
+                        <aura:if isTrue="{!!v.isCheckout}" >
+                            <lightning:layoutItem padding="around-small" size="9">
+                                <div class="page-section page-main">
+                                    <h2 class="slds-text-title_caps" style="height: 55px;
+                                                                            background: darkseagreen;
+                                                                            line-height: 3;
+                                                                            padding-left: 10px;
+                                                                            font-size: 19px;
+                                                                            font-weight: bold;">
+                                        SHOPPING CART({!v.cartItemList.length} &nbsp; items)
+                                    </h2>
+                               </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+                        
+                        
+                        <aura:if isTrue="{!v.isCheckout}" >
+                            <lightning:layoutItem padding="around-small" size="9">
+                                <div class="page-section page-main">
+                                    <h1>Select Billing/Shipping Address</h1>
+                                  
+                                        	<lightning:input aura:id="address"
+                                                             name="Street" 
+                                                             label="Street"
+                                                             required="true"
+                                                             value="{!v.addressBook.Street__c}"
+                                                             placeholder="type here..."/>
+                                            <lightning:input aura:id="address"
+                                                             name="City" 
+                                                             label="City"
+                                                             required="true"
+                                                             value="{!v.addressBook.City__c}"
+                                                             placeholder="type here..."/>
+                                            <lightning:input aura:id="address"
+                                                             name="PostalCode" 
+                                                             label="PostalCode"
+                                                             required="true"
+                                                             value="{!v.addressBook.Postal_Code__c}"
+                                                             placeholder="type here..."/>
+                                            <lightning:input aura:id="address"
+                                                             name="State" 
+                                                             label="State"
+                                                             required="true"
+                                                             value="{!v.addressBook.State__c}"
+                                                             placeholder="type here..."/>
+                                            <lightning:input aura:id="address"
+                                                             name="Country" 
+                                                             label="Country"
+                                                             required="true"
+                                                             value="{!v.addressBook.Country__c}"
+                                                             placeholder="type here..."/>
+                                            <lightning:button variant="brand" label="save address"
+                                                              onclick="{!c.doSaveAddress}"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+                        
+                        
+                        
+                        <lightning:layoutItem padding="around-small" size="3">
+                                <div class="page-section page-right">
+                                    <aura:if isTrue="{!!v.isCheckout}" >
+                                        <lightning:buttonGroup>
+                                            <lightning:button label="Continue"
+                                                              onclick="{!c.homePage}"/>
+                                            <lightning:button label="Proceed Checkout"
+                                                              variant="brand"
+                                                              onclick="{!c.doCheckout}"/>
+                                        </lightning:buttonGroup>
+                                    </aura:if>
+                                </div>
+                        </lightning:layoutItem>
+                        
+                    </lightning:layout>
+                </lightning:layoutItem>
+               
+            </lightning:layout>
+                      </div>    
+</aura:component>

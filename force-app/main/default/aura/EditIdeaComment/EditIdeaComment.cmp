@@ -1,0 +1,32 @@
+<aura:component access="global" 
+                controller="EditIdeaController" >
+    <aura:attribute name="CommentId" type="String"/>
+    
+    <!-- Call the init function whenever a Users clicked on Edit next to Idea Comment -->
+    <aura:handler name="change" value="{!v.CommentId}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="IdeaCommentRecord" type="sobject"/>
+    <div class="slds-page-header">
+        <div class="slds-media__body">
+                <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Create Idea">Edit Idea Comment</h1>
+                <p class="slds-text-body_small slds-line-height_reset">Easy way to Manage Ideas in Lightning</p>
+            </div>
+    </div>
+     <div class="slds-form slds-form_stacked">
+        <div class="slds-modal__header">
+            <h2 class="slds-text-heading--medium">Edit Idea Comment</h2>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="input-unique-id">
+                <abbr class="slds-required" title="required">*</abbr>Comment </label>
+            <div class="slds-form-element__control">
+                
+                 <ui:inputTextArea class="slds-input" aura:id="commentBody" value="{!v.IdeaCommentRecord.CommentBody}" />
+            </div>
+            <div class="slds-form-element__control">
+                 <lightning:button variant="brand" label="Update Idea Comment" iconName="action:new" iconPosition="left" onclick="{!c.updateIdeacomment}"/>
+            </div>
+       
+        </div>
+    </div>
+</aura:component>

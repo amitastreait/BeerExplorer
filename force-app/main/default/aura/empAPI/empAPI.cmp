@@ -1,0 +1,16 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" >
+    
+    <lightning:empApi aura:id="empApi" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    
+    <aura:attribute name="subscription" type="Map" />
+    
+    <lightning:input aura:id="channel" label="channel" name="channel" 
+                     type="text" value="/event/Account_Change__e"/>
+    
+    <lightning:button label="Subscribe" onclick="{! c.subscribe }" variant="brand" />
+    
+    <lightning:button label="Unsubscribe" onclick="{! c.unsubscribe }" 
+                      disabled="{!empty(v.subscription)}" variant="destructive"/>
+</aura:component>

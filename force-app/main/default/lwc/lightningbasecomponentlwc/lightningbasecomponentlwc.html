@@ -1,0 +1,70 @@
+<template>
+    <div class="slds-m-top_medium slds-m-bottom_x-large">
+        <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+            Button group using simple buttons.
+        </h2>
+        <lightning-card title="Lightning Card " icon-name="custom:custom76">
+            <!-- Button group: simple buttons -->
+            <lightning-button label="Follow" icon-name="utility:add" slot="actions"></lightning-button>
+            &nbsp; &nbsp;
+             <!-- <lightning-button-group slot="actions"> -->
+                <lightning-button label="Refresh" slot="actions"></lightning-button>
+                <lightning-button label="Edit" slot="actions"></lightning-button>
+                <lightning-button label="Save" slot="actions"></lightning-button>
+                <div class="slds-m-around_large">
+                    <div style="height: 15rem;">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="combobox-id-1">Relate to</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-combobox_container">
+                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false"
+                                        aria-haspopup="listbox" role="combobox">
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                            <input class="slds-input slds-combobox__input" id="combobox-id-1" aria-autocomplete="list"
+                                                aria-controls="listbox-id-1" autocomplete="off" role="textbox" type="text"
+                                                placeholder="Search..." value="" />
+                                            <span
+                                                class="slds-icon_container 
+                                                slds-icon-utility-search 
+                                                slds-input__icon slds-input__icon_right"
+                                                style="margin-top: -11px;">
+                                                <lightning-icon icon-name="utility:search" 
+                                                size="small" ></lightning-icon>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <template if:true={oppList.error}>
+                {error}
+            </template>
+            <div class="slds-m-around_large">
+                <lightning-input type="search"
+                                 label="Search Record"
+                                 value={inputVal}
+                                 
+                                 name="amit"
+                                 required
+                ></lightning-input>
+                <lightning-input type="search"
+                                 label="Search Record"
+                                 value={inputVal1}
+                                 name="moiana"
+                                 required
+                ></lightning-input>
+                <br/>
+                <p>
+                    {inputVal} &nbsp; &nbsp; {inputVal1}
+                </p>
+                <lightning-button label="Click Me"
+                                  variant="brand"
+                                  onclick={handleClick}
+                                  icon-name="custom:custom48"
+                                  icon-position="left"></lightning-button>
+            </div>
+        </lightning-card>
+    </div>
+</template>

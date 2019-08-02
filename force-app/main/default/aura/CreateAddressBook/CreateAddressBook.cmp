@@ -1,0 +1,37 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="sObjectType" type="Address_Book__c" default="{
+                                                              sobjectType : 'Address_Book__c',
+                                                              'Street__c' : '',
+                                                              'City__c' : '',
+                                                              'Country__c' : ''
+                                                             }" />
+    <aura:attribute name="fields" type="List" 
+                    default="['Id','Street__c','City__c','Country__c','State__c','Postal_Code__c']" />
+    <aura:attribute name="record" type="Object" 
+                    description="The record object to be displayed"/>
+    <aura:attribute name="recordError" type="String" 
+                    description="An error message bound to force:recordData"/>
+    <aura:attribute name="recordId" type="String" />
+    <force:recordData aura:id="recordEditor"
+                      recordId="{!v.recordId}"
+                      fields="{!v.fields}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      targetFields ="{!v.sObjectType}"
+                      mode="EDIT"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <c:AddressComponent sObjectType="{!v.sObjectType}" 
+                        fields="{!v.fields}"
+                        streetAPIName ="Street__c"
+                        CityAPIName ="City__c"
+                        CountryAPIName="Country__c"
+                        StateAPIName ="State__c"
+                        ZipAPIName = "Postal_Code__c"/> 
+    <div class="slds-m-around_medium">
+        <div>
+            <lightning:button label="Save Address" variant="brand" 
+                              onclick="{!c.doSaveAddress}" />
+        </div>
+    </div> 
+</aura:component>

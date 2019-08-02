@@ -1,0 +1,39 @@
+<template>
+    <lightning-card title="Search Account" icon-name="standard:account">
+        <lightning-input value={searchKey} 
+                         onchange={valueChange} 
+                         label="Search Account">
+
+        </lightning-input>
+        <lightning-layout vertical-align="center" multiple-rows="true">
+            <template for:each={accounts} for:item="item" >
+                <p key={item.Id}>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-icon icon-name="standard:account" size="small">
+                        </lightning-icon>
+                        &nbsp;&nbsp;
+                        <lightning-formatted-text value={item.Name} >
+                        </lightning-formatted-text>
+                    </lightning-layout-item>
+                </p>
+            </template>
+            <template if:true={selectedAccount}>
+                <div>
+                    Selected Account => {selectedAccount.Name}
+                </div>
+            </template>
+            <template if:true={error}>
+                <c-error-panel errors={error}></c-error-panel>
+            </template>
+        </lightning-layout>
+        <lightning-layout vertical-align="center">
+            <lightning-layout-item padding="around-small">
+                <lightning-button label="Search Account" 
+                                  value="Search Account" 
+                                  variant="brand"
+                                  onclick={searchAccount} >
+                </lightning-button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card>
+</template>

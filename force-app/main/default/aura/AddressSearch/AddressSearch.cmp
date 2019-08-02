@@ -1,0 +1,72 @@
+<aura:component controller="AddressSearchAuraService">
+    <aura:attribute name="predictions" type="Object" />
+    <aura:attribute name="streetList" type="List" />
+    <aura:registerEvent name="addressEvent" type="c:SelectAddressEvent" />
+    <aura:attribute name="selectedAddress" type="String" />
+    <aura:attribute name="errorMessage" type="String" />
+	<lightning:input name="address" 
+                     aura:id="addressValue" 
+                     type="Search"
+                     label="Search Your Address"  
+                     placeholder="search your address" 
+                     onchange="{!c.handleChange}">
+        <lightning:icon iconName="standard:address" size="small" />
+    </lightning:input>
+	
+    <aura:if isTrue="{!v.errorMessage != null}">
+        <div style="height:250px;">
+            <div class="slds-scoped-notification slds-media slds-media_center" role="status">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-utility-info" title="information">
+                        <lightning:icon iconName="custom:custom67" size="medium"/>
+                        <span class="slds-assistive-text">Error</span>
+                    </span>
+                </div>
+                <div class="slds-media__body" >
+                    <p>An Error Occured. Details are below:-</p>
+                    <strong>
+                        <p style="color:red;">{!v.errorMessage}</p>   
+                    </strong>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!and(v.predictions!=null, v.predictions.length>0)}">
+        <aura:iteration items="{!v.predictions}" var="predcit" indexVar="index">
+            <lightning:layout class="dropdown-content" >
+                <lightning:layoutItem class="slds-p-top_small">
+                    <lightning:icon iconName="standard:address" size="medium"/> &nbsp;&nbsp;
+                </lightning:layoutItem>
+                <lightning:layoutItem class="slds-p-top_small boxSize" >
+                    <a id="{!index}" href="JavaScript:void(0);" 
+                       onclick="{!c.onSelectAddress}"
+                       style="text-decoration:none;">
+                        <strong style="color:black;">{!predcit.label}</strong>
+                        <p>{!predcit.value}</p>
+                        
+                    </a>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:iteration>
+        <aura:set attribute="else">
+            <aura:if isTrue="{!v.errorMessage == null}">
+                <div style="height:250px;">
+                    <div class="slds-scoped-notification slds-media slds-media_center" role="status">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-utility-info" title="information">
+                                <lightning:icon iconName="action:info" size="small"/>
+                                <span class="slds-assistive-text">information</span>
+                            </span>
+                        </div>
+                        <div class="slds-media__body" >
+                            <strong>
+                                <p style="color:black;">It looks there are no search results.</p>
+                                <p style="color:black;">Enter address to find the correct place that you are looking for.</p>
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+        </aura:set>
+    </aura:if>
+</aura:component>

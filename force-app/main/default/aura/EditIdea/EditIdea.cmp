@@ -1,0 +1,91 @@
+<aura:component access="global" 
+                controller="EditIdeaController">
+    
+    <aura:attribute name="hasError"        type="boolean" />
+    <aura:attribute name="optionValue"     type="String[]"/>
+    <aura:attribute name="CategoryValue"   type="String[]"/>
+    <aura:attribute name="ideaRecord"      type="object" />
+    <aura:attribute name="ideaId"          type="String" />
+    <aura:attribute name="modalContext"    type="String" default="Edit" />
+    
+    <aura:handler name='init' value="{!this}" action="{!c.doInit}"/>
+    
+	<div class="slds-page-header">
+        <div class="slds-media">
+            <div class="slds-media__figure">
+                <span class="slds-icon_container" title="Description of icon when needed">
+                    <lightning:icon iconName="utility:light_bulb" size="medium" alternativeText="Indicates approval" class="slds-icon-text-default" />
+                </span>
+            </div>
+            <div class="slds-media__body">
+                <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Create Idea">{!v.modalContext} Idea</h1>
+                <p class="slds-text-body_small slds-line-height_reset">Easy way to Manage Ideas in Lightning</p>
+            </div>
+        </div>
+    </div>
+    <br/>
+    
+    <aura:if isTrue="{!v.hasError}">
+        <ui:message title="Error" severity="error" closable="false">
+            Record could not be saved! There are Errors Please Review the Errors Below and then submit again.
+        </ui:message>
+    </aura:if>
+    
+    <!-- Create Idea Form -->
+    <div class="slds-form slds-form_stacked">
+        <div class="slds-modal__header">
+            <h2 class="slds-text-heading--medium">{!v.modalContext} Idea </h2>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="input-unique-id">
+                <abbr class="slds-required" title="required">*</abbr>Zone :</label>
+            <div class="slds-form-element__control">
+                <ui:outputText class="slds-input" aura:id="zone" value="{!v.ideaRecord.Community.Name}" />
+            </div>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="input-unique-id">
+                <abbr class="slds-required" title="required">*</abbr>Title</label>
+            <div class="slds-form-element__control">
+                <ui:inputText class="slds-input" aura:id="titleInput" value="{!v.ideaRecord.Title}" />
+            </div>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="input-unique-id">
+                <abbr class="slds-required" title="required">*</abbr>Status</label>
+            <div class="slds-form-element__control">
+                <ui:inputSelect class="slds-input" aura:id="statusInput" value="{!v.ideaRecord.Status}" />
+            </div>
+        </div><br/>
+        <div class="slds-form-element">
+            <div class="slds-form-element__control">
+                <lightning:inputRichText class="slds-textarea" aura:id="Description" 
+                                         label="Description"  value="{!v.ideaRecord.Body}" />
+            </div>
+        </div><br/>
+        <lightning:dualListbox name="Category" 
+                           aura:id="CategoriesM"
+                           label= "Select Category" 
+                           sourceLabel="Available" 
+                           selectedLabel="Selected" 
+                           fieldLevelHelp="This is a dual listbox for Category" 
+                           options="{!v.optionValue}" 
+                           value="{!v.CategoryValue}"
+                           />
+        <!-- <div class="slds-form-element">
+            <div class="slds-form-element__control">
+                <! - - <ui:inputSelect multiple="true" label="Categories" 
+                                aura:id="Categories" value="{!v.ideaRecord.Categories}" />
+                - ->
+                <!- -<force:inputField aura:id="Category" value="{!v.ideaRecord.Categories}"/>- ->
+            </div>
+        </div> -->
+        <div class="slds-form-element">
+            <div class="slds-form-element__control">
+                 <lightning:button variant="brand" label="Update Idea" iconName="action:new" iconPosition="left" onclick="{!c.updateIdea}"/>
+            </div>
+        </div>
+    </div>
+    <!-- Create Idea Form End -->
+    
+</aura:component>

@@ -1,0 +1,31 @@
+<aura:component controller="CartDetailsAuraServices">
+    <aura:attribute name="cartItem" type="Object" />
+    <aura:attribute name="index" type="Integer"/>
+    <div>
+        <div class="slds-grid slds-wrap">
+             <div class="slds-col slds-size_1-of-4">
+                <a href="JavaScript:void(0);" >
+                    {!v.cartItem.Beer__r.Name}
+                </a>
+            </div>
+            
+            <div class="slds-col slds-size_1-of-4">
+                <lightning:formattedNumber label="Price" value="{!v.cartItem.Total_Amount__c}" 
+                                           style="currency" currencyCode="USD"/>
+            </div>
+            <div class="slds-col slds-size_1-of-4">
+                <ui:inputNumber label="" value="{!v.cartItem.Item_Quantity__c}" 
+                                />
+                
+            </div>
+            <div class="slds-col slds-size_1-of-4 slds-p-left_x-large">
+                <a href="JavaScript:void(0);" id="{!v.cartItem.Id}" onclick="{!c.deleteCartItem}" >
+                    <lightning:icon title="{!v.cartItem.Id}"
+                                    iconName="utility:delete" 
+                                    alternativeText="delete" 
+                                    size="small" />
+                </a>
+            </div>
+        </div>
+    </div>
+</aura:component>

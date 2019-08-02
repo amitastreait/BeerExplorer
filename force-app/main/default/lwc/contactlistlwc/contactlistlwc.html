@@ -1,0 +1,18 @@
+<template>
+    <div class="slds-m-around_large">
+        <div class="slds-text-heading_large slds-box slds-text-align_center">
+            Contact List
+        </div>
+        <template if:true={contacts.data}>
+            <lightning-layout vertical-align="center">
+                <lightning-layout-item padding="around-small">
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small">
+                </lightning-layout-item>
+            </lightning-layout>
+            <template for:each={contacts.data} for:item="contact">
+                <c-contacttilelwc key={contact.Id} contact={contact}></c-contacttilelwc>
+            </template>
+        </template>
+    </div>
+</template>

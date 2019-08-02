@@ -1,0 +1,7 @@
+<aura:component >
+	<aura:handler  event="c:ApplicationEvent" action="{!c.handleEvent}"
+               includeFacets="true" phase="bubble"   />
+    <div class="slds-p-around_small">
+        {!v.body}
+    </div>
+</aura:component>

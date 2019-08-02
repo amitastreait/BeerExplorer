@@ -1,0 +1,199 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,lightning:isUrlAddressable" 
+                access="global" 
+                controller="ViewIdeaController">
+    <aura:attribute name="Community"        type="String" access="global" />
+    <aura:attribute name="ideaId"           type="String" access="global" />
+    <aura:attribute name="ideaCommentId"    type="String" />
+    <aura:attribute name="ideaToDisplay"    type="Object" />
+    <aura:attribute name="isSending"        type="boolean" />
+    <aura:attribute name="hasError"         type="boolean" />
+    <aura:attribute name="userId"           type="String" default="005XXXXXXXXXX" />
+    <aura:attribute name="textComment"      type="String" />
+    <aura:attribute name="ideaWithComments" type="ViewIdeaWrapper" />
+    
+    <aura:attribute name="isOpenModal"        type="boolean" default="true"/>
+    <aura:attribute name="isOpenModalComment" type="boolean" default="true"/>
+    
+    <!-- For navigation to Idea View Component -->
+    <lightning:navigation aura:id="navService"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.handleChange}"/>
+    
+    
+        <!-- Spinner Start  -->
+        <aura:if isTrue="{!v.isSending}">
+            <div class="slds-spinner_container">
+                <div class="slds-spinner--brand slds-spinner slds-spinner--large" role="alert">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </aura:if>
+        <!-- Spinner End -->
+        
+        <c:IdeaHeader/>
+        
+        <div class="demo-only demo-only--sizing slds-grid slds-wrap slds-p-left_large slds-p-right_large" >
+            <h1>  </h1>
+            <div class="slds-size_2-of-2">
+                <div class=" slds-text-align_center slds-m-around_x-small">
+                    <aura:if isTrue="{!v.Community=='No'}">
+                        <lightning:buttonGroup class="slds-align_absolute-center">
+                            <lightning:button label="Edit" variant="brand" iconName="action:edit" iconPosition="left" onclick="{!c.openModal }" /> &nbsp; &nbsp; &nbsp;
+                            <lightning:button label="Delete" variant="destructive" iconName="action:delete" iconPosition="left" onclick="{!c.ideadelete}"/> &nbsp; &nbsp; &nbsp;
+                            <lightning:button label="Back to Ideas" variant="brand" iconName="utility:light_bulb" iconPosition="left" onclick="{!c.ideasTab }" /> 
+                        </lightning:buttonGroup>
+                    </aura:if>
+                </div>
+            </div>
+        </div>  
+        <br/>
+        <div class="slds-box">
+        <!-- Show Error if Any -->
+        <aura:if isTrue="{!v.hasError}">
+            <div class="slds-p-left_large slds-p-right_large">
+                <ui:message title="Error" severity="error" closable="false">
+                    Comment could not be saved! There are Errors Please Review the Errors Below and then submit again.
+                </ui:message>
+            </div>
+        </aura:if>
+        <!-- Show Error End -->
+        
+        <div class="slds-p-left_large slds-p-right_large content">
+            <div class="slds-border_top" style="border-top: 4px solid; border-top-color: cornflowerblue;"></div>
+            <h1 class="slds-page-header__title slds-truncate slds-align-middle slds-p-left_large">Idea Details </h1>
+            <div class="slds-border_top"></div>
+            <div><br/>
+                <div class=" slds-p-left_large">
+                    <h1 class="slds-page-header__title slds-truncate slds-align-middle">
+                        {!v.ideaWithComments.idea.Title} 
+                    </h1>
+                    <br/>
+                </div>
+                <div class=" slds-p-left_large">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-size_3-of-4 ">
+                            <!-- <ui:outputRichText value="{!v.ideaWithComments.idea.Body}" 
+                                   class="slds-output" /> -->
+                            <lightning:formattedRichText value="{!v.ideaWithComments.idea.Body}">
+                            </lightning:formattedRichText>
+                        </div>
+                        <div class="slds-size_1-of-4">
+                            <aura:if isTrue="{!v.ideaWithComments}">
+                                <c:IdeaVote userId="{!v.userId}" 
+                                            Votes="{!v.ideaWithComments.ideaVotes}"
+                                            Idea ="{!v.ideaWithComments.idea}"/>
+                            </aura:if>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="slds-p-left_large slds-p-right_large">
+            <div class="slds-border_top slds-p-left_large slds-p-right_large" style="border-top: 4px solid; border-top-color: cornflowerblue;"> 
+                <h1 class="slds-page-header__title slds-truncate slds-align-middle">Add Your Comments </h1> </div>
+            <div class="slds-border_top"></div>
+            <div class="slds-form-element">
+                <label class="slds-form-element__label slds-p-left_large slds-p-right_large" for="textarea-id-01"></label>
+                <div class="slds-form-element__control">
+                    <div class="slds-p-left_large">
+                        <ui:inputTextArea aura:id="comments" rows="5" value="{!v.textComment}"/>
+                    </div>
+                </div>
+                <div class="slds-size_2-of-2 slds-p-left_large">
+                    <lightning:buttonGroup >
+                        <lightning:button label="Post Comment" variant="brand" iconName="action:share_post" iconPosition="left" onclick="{!c.createComment}"/>
+                    </lightning:buttonGroup>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <ui:scrollerWrapper class="scrollerSize">
+            <div class="slds-p-left_large slds-p-right_large">
+                <div class="slds-border_top slds-p-left_large slds-p-right_large" style="border-top: 4px solid; border-top-color: cornflowerblue;"> 
+                    <h1 class="slds-page-header__title slds-truncate slds-align-middle">Comments</h1> </div>
+                <div class="slds-border_top"></div>
+                
+                <div class="slds-p-left_large slds-p-right_large">
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                        <thead>
+                            <tr class="slds-text-title_caps">
+                                <th scope="col" style="color:black;">
+                                    <div class="slds-truncate" title="Actions" ><b></b></div>
+                                </th>
+                                <th scope="col" style="color:black;">
+                                    <div class="slds-truncate" title="Posted By"><b>Posted By</b></div>
+                                </th>
+                                <th scope="col" style="color:black;">
+                                    <div class="slds-truncate" title="Comment Body"><b>Comment Body</b></div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration var="cmnts" items="{!v.ideaWithComments.ideaCommentList}">
+                                <tr>
+                                    <aura:if isTrue="{!v.Community=='No'}">
+                                        
+                                        <th scope="row" data-label="Actions">
+                                            <div class="slds-truncate" title="Actions">
+                                                <a onclick="{!c.openModalComment}" id="{!cmnts.Id}">Edit</a> 
+                                                &nbsp;| &nbsp;
+                                                <a onclick="{!c.deletecomment}" id="{!cmnts.Id}">Delete</a>
+                                            </div>
+                                        </th>
+                                    </aura:if>
+                                    <td data-label="Account Name">
+                                        <div class="slds-truncate" title="Posted By">
+                                            {!cmnts.CreatorName} &nbsp; &nbsp;
+                                            <ui:outputDateTime value="{!cmnts.CreatedDate}"/>
+                                        </div>
+                                    </td>
+                                    <td data-label="Close Date">
+                                        <div class="slds-truncate" title="Comment Body">
+                                            <ui:outputTextArea value="{!cmnts.CommentBody}"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </ui:scrollerWrapper>
+        <!-- open Edit Idea modal -->
+        <aura:if isTrue="{!v.isOpenModal}">
+            <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="Modalbox" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <c:EditIdea ideaId="{!v.ideaId}"></c:EditIdea>
+                        </div>
+                    </div>
+                    <div class="slds-modal__footer">
+                        <button  type="button" class="slds-button slds-button--destructive " onclick="{!c.closeModal}">Cancel</button>&nbsp;&nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop " aura:id="Modalbackdrop"></div>
+        </aura:if>
+        <!-- End -->
+        <aura:if isTrue="{!v.isOpenModalComment}">
+            <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="Modalbox1" class="slds-modal">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div>
+                            <c:EditIdeaComment CommentId="{!v.ideaCommentId}"></c:EditIdeaComment>
+                        </div>
+                    </div>
+                    <div class="slds-modal__footer">
+                        <button  type="button" class="slds-button slds-button--destructive " onclick="{!c.closeModalComment}">Cancel</button>&nbsp;&nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop " aura:id="Modalbackdrop1"></div>
+        </aura:if>
+    </div>
+</aura:component>

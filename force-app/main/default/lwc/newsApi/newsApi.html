@@ -1,0 +1,49 @@
+<template>
+    <lightning-card title="Top News" icon-name="custom:custom78">
+        <div class="slds-p-around_small">
+            <lightning-button label="Fetch Method Test" 
+                              variant="brand"
+                              onclick={fetchMethodTest}
+                              icon-name="custom:custom10"
+                              icon-position="right"
+                              name="Fetch Method"></lightning-button>
+        </div>
+        <div class="slds-p-around_small">
+            <lightning-input label="Search News" placeholder="Type your Query Here"
+                             value={queryParams} onchange={valueChange} ></lightning-input>
+        </div>
+        <div class="slds-p-around_small">
+            <lightning-button label="Search News" value="Search News" variant="brand"
+               onclick={searchNews} ></lightning-button>
+        </div>
+        <lightning-layout vertical-align="center" multiple-rows="true">
+            <template if:true={headlines}>
+                <template for:each={headlines.articles} for:item="item">
+                    <lightning-layout-item key={item.title} padding="around-small" size="4">
+                        <p>
+                            {item.source.name} &nbsp;&nbsp; {item.author} <br/>
+                            <a href={item.url} target="_blank" style="text-decoration:none;" >
+                                <strong class="slds-text-heading_medium">{item.title}</strong>
+                            </a>
+                            <br/>
+                            <template if:true={item.urlToImage}>
+                                <a href={item.url} target="_blank" >
+                                    <img src={item.urlToImage} alt="Headline Image" />
+                                </a>
+                            </template>
+                            <template if:false={item.urlToImage}>
+                                <a href={item.url}  target="_blank" >
+                                    <img src="http://www.sdpb.org/s/photogallery/img/no-image-available.jpg" 
+                                        alt="No Image" />
+                                </a>
+                            </template>
+                        </p>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={error}>
+                    <c-error-panel errors={error}></c-error-panel>
+                </template>
+            </template>
+        </lightning-layout>
+    </lightning-card>
+</template>

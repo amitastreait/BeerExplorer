@@ -1,0 +1,18 @@
+<aura:component >
+    <aura:registerEvent name="LookupEvent" type="c:CustomLookupEvent" />
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-4">
+            <div class="slds-p-left_small slds-p-top_small slds-p-bottom_small">
+                <lightning:input
+                                 aura:id="enter-search"
+                                 name="enter-search"
+                                 label="Please Enter Search Text"
+                                 type="search"
+                                 onkeyup="{!c.handleKeyUp}"
+                                 
+                                 />
+                
+            </div>
+        </div>
+    </div>
+</aura:component>

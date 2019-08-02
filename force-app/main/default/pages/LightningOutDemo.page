@@ -1,0 +1,19 @@
+<apex:page standardController="Opportunity" >
+    <apex:includeLightning />
+    <div id="lightning">
+        
+    </div>
+    <script>
+    $Lightning.use('c:LightningApplication',function(){
+        $Lightning.createComponent('c:LightningLayout',
+                                   {
+                                       "greeting" : "I am in VF Page"
+                                   },
+                                   "lightning",
+                                   function(cmponent){
+                                       //alert('{!Opportunity.Id}');
+                                       component.set('v.greeting','{!Opportunity.Id}');
+                                   });
+    });
+    </script>
+</apex:page>

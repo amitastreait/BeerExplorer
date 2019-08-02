@@ -1,0 +1,18 @@
+<aura:component implements="force:appHostable" controller="BeerSearchAuraService">
+    
+    <aura:handler name="BeerEvent" event="c:SearchEvent" action="{!c.handleCompEvent}" />
+    <aura:handler name="init" value="{!this}" action="{!c.handleCompEvent}" />
+    <aura:handler name="addToCart" event="c:AddToCart" action="{!c.updateCart}" />
+    <aura:attribute name="beerList" type="Object" />
+    <div>
+        <c:HeaderComponent aura:id="headerComp" TagLine="BeerExplorer" 
+                           message="Search and Order Beer in a very easy manner!" />
+        
+    </div>
+    <div>
+    	<c:BeerSearch />
+    </div>
+    <div>
+        <c:BeerListComponent  recordList ="{!v.beerList}" />
+    </div>
+</aura:component>

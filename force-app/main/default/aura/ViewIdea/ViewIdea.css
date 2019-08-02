@@ -1,0 +1,21 @@
+/** CSS **/
+.THIS .content {
+    /*background : white !important;*/
+}
+.THIS.scrollerSize {
+    height: 200px;
+    
+}
+.THIS .slds-icon-utility-like.slds-icon_container{
+    border : 3px solid;
+}
+.THIS .slds-icon-utility-dislike.slds-icon_container{
+    border : 3px solid;
+}
+
+.THIS.slds-box.cViewIdea{
+    background : white !important;
+}
+.THIS .slds-box{
+    background: rgb(255, 255, 255);
+}

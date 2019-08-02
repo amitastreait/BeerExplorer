@@ -1,0 +1,28 @@
+<template>
+    <lightning-card title="Search Accounts" icon-name="standard:contact">
+        <div class="slds-p-around_small">
+            <lightning-input value={searchKey} label="Search Contact"
+                             onchange={changeValue} ></lightning-input>
+        </div>
+        <div class="slds-p-around_small">
+            <lightning-button label="Search Contacts" 
+                        value="Search Contacts"
+                        variant="brand"
+                        onclick={searchContacts} ></lightning-button>
+        </div>
+        <lightning-layout vertical-align="center">
+            <template if:true={contacts}>
+                <template for:each={contacts} for:item="contact">
+                    <lightning-layout-item key={contact.Id} padding="around-small">
+                        <p>
+                            {contact.Name}
+                        </p>
+                    </lightning-layout-item>
+                </template>
+            </template>
+            <template if:true={error}>
+                <c-error-panel errors={error}></c-error-panel>
+            </template>
+        </lightning-layout>
+    </lightning-card>
+</template>

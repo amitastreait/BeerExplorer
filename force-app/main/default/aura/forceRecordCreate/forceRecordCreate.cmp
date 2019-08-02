@@ -1,0 +1,32 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+	<lightning:button variant="brand" label="Quick Contact" value="Quick Contact"
+                      onclick="{!c.createContact}" />
+    
+    <lightning:button variant="brand" label="Edit Account" value="Edit Account"
+                      onclick="{!c.editRecord}" />
+    
+    <!-- <force:recordView recordId ="{!v.recordId}"/>
+    <lightning:recordForm recordId="{!v.recordId}"
+                          objectApiName="Account"
+                          layoutType="Full"
+                          columns="3"
+                          mode="view"/> -->
+    <aura:attribute name="options" type="List" />
+    <aura:attribute name="selectedValue" type="List" default="['en','it']" />
+    <aura:attribute name="requiredValue" type="List" default="['en','de']" />
+<!-- 1 - Lable
+2 - Value -->
+    <lightning:dualListbox name="languages"  
+                           label= "Select Languages" 
+                           sourceLabel="Available" 
+                           selectedLabel="Selected" 
+                           fieldLevelHelp="This is a dual listbox" 
+                           options="{!v.options}" 
+                           value="{!v.selectedValue}"
+                           requiredOptions="{!v.requiredValue}"
+                           onchange="{!c.handleChange }"/>
+</aura:component>

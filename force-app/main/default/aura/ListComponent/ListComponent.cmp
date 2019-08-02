@@ -1,0 +1,49 @@
+<aura:component >
+    <aura:attribute name="recordList" type="Object" />
+    <aura:attribute name="iconName" type="String" default="standard:account" />
+    <aura:attribute name="selectedRecordList" type="Object" />
+    <aura:registerEvent name="selectEvent" type="c:CustomLookupSelect" />
+    <div class="slds-p-left_small">
+    	<aura:iteration items="{!v.selectedRecordList}" var="item" indexVar="index" >
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-4">
+                    <lightning:pill label="{!item.Name}" name="{!index}" 
+                                    onremove="{! c.handleRemove }" >
+                        <aura:set attribute="media">
+                            <lightning:icon iconName="{!v.iconName}" 
+                                            alternativeText="{!v.iconName}"/>
+                        </aura:set>
+                    </lightning:pill>
+                </div>
+            </div>
+        </aura:iteration>
+    </div>
+    <div class="slds-p-left_small">
+        <aura:iteration items="{!v.recordList}" var="item" indexVar="index">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-4">
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <li role="presentation" class="slds-listbox__item">
+                            <div class="slds-media slds-listbox__option 
+                                                     slds-listbox__option_entity 
+                                                     slds-listbox__option_has-meta" 
+                                 role="option" id="{!index}" onclick="{!c.doSelect}">
+                                <span class="slds-media__figure slds-listbox__option-icon">
+                                    <lightning:icon iconName="{!v.iconName}" 
+                                                    alternativeText="Event" />
+                                </span>
+                                <span class="slds-media__body">
+                                    <span class="slds-listbox__option-text 
+                                                 slds-listbox__option-text_entity">
+                                        {!item.Name}
+                                    </span>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </aura:iteration>
+    </div>
+</aura:component>

@@ -1,0 +1,3 @@
+<design:component >
+	<design:attribute name="CommunitySite" datasource="Yes,No" />
+</design:component>

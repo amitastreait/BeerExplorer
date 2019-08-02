@@ -1,0 +1,279 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,lightning:isUrlAddressable" 
+                access="global" 
+                controller="IdeaComponentController">
+    
+    <aura:attribute name="CommunitySite"      type="String" default="No" />
+    <aura:attribute name="ideaListToShow"     type="Object[]"/>
+    <aura:attribute name="ideaCommentToShow"  type="Object[]"/>
+    <aura:attribute name="test"               type="Object[]"/>
+    <aura:attribute name="isSending"          type="boolean" />
+    <aura:attribute name="noIdeas"            type="boolean" />
+    <aura:attribute name="tabValue"           type="String"/>
+    <aura:attribute name="isOpenModal"        type="boolean" default="true"/>
+    <aura:attribute name="navigate"           type="boolean" default="false"/>
+    <aura:attribute name="ideaId"             type="String"  default='xxxxxxxxxxxxxxxxxx'/>
+    <aura:attribute name="userId"             type="String"  default='xxxxxxxxxxxxxxxxxx'/>
+    
+    <!-- Attribute Declration For Pagination -->
+    <aura:attribute name="ideaPaginationList" type="object"/>
+    <aura:attribute name="startPage"          type="Integer" />
+    <aura:attribute name="endPage"            type="Integer"/>
+    <aura:attribute name="totalIdeas"         type="Integer"/>
+    <aura:attribute name="pageSize"           type="Integer" default="5"/>
+    <!-- Attribute Declration For Pagination End-->
+    
+    <aura:handler name='init' value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:CreateIdeaEvent"   action="{!c.refreshPage}"/>
+    
+    <!-- For navigation to Idea View Component -->
+    <lightning:navigation aura:id="navService"/>
+    <!-- Spinner Start  -->
+    
+    <aura:if isTrue="{!v.isSending}">
+        <div class="slds-spinner_container">
+            <div class="slds-spinner--brand slds-spinner slds-spinner--large" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    <!-- Spinner End -->
+    <aura:if isTrue="{!!v.navigate}">
+        <c:IdeaHeader/>
+        
+        <br/>
+        <div class="slds-form slds-form_stacked">
+            <div class="slds-form-element slds-size_1-of-3 slds-form-element__control slds-p-left_x-small">
+                <label class="slds-form-element__label" for="input-unique-id">
+                    <abbr class="slds-required" title="required">*</abbr>Select Zone :</label>
+                <div class="slds-form-element__control">
+                    <ui:inputSelect class="slds-input" aura:id="zone" change="{!c.updateIdeaList}"/>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div>
+            <lightning:tabset class="slds-p-left_xx-large">
+                <lightning:tab onactive="{!c.showAllIdeas}">
+                    <aura:set attribute="label">
+                        Popular Ideas 
+                    </aura:set>
+                    <center>
+                        <lightning:button variant="brand" label="Post Ideas" 
+                                          iconName="utility:light_bulb" 
+                                          iconPosition="left" 
+                                          aura:id="Popular-Ideas"
+                                          onclick="{!c.openModal}" />
+                    </center><br/>
+                    <aura:iteration items="{!v.ideaPaginationList}" var="obj" indexVar="i">
+                        <div class="slds-truncate">
+                            <a onclick="{!c.viewIdea}" class="slds-text-heading_medium" id="{!obj.Id}"> {!obj.Title} </a>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-size_3-of-4 ">
+                                <aura:if isTrue="{!obj.Body!=null}">
+                                    <lightning:formattedRichText value="{!obj.Body}"/>
+                                    <aura:set attribute="else">
+                                    	No Description
+                                    </aura:set>
+                                </aura:if>
+                                
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <c:IdeaVote userId="{!v.userId}" 
+                                            Votes="{!obj.Votes}"
+                                            Idea = "{!obj}"/>
+                            </div>
+                        </div>
+                        <div id="{!obj.Id}" >
+                            <lightning:pill label="{!obj.NumComments}" >
+                                <aura:set attribute="media">
+                                    <lightning:icon iconName="utility:comments"  alternativeText="comments"/>
+                                </aura:set>
+                            </lightning:pill><a href="javascript:void(0);" > Comments >> </a>
+                            Posted By <a  href="javascript:void(0);" > {!obj.CreatorName} </a> on <ui:outputDateTime value="{!obj.CreatedDate}"/>
+                        </div>
+                        <br/><br/>
+                    </aura:iteration>
+                    <lightning:buttonGroup >
+                        <lightning:button label="Previous" disabled="{!v.startPage == 0}"  onclick="{!c.previous}" class="slds-button slds-button_brand"/>
+                        &nbsp; &nbsp; &nbsp;
+                        <lightning:button label="Next" disabled="{!v.endPage >= v.totalIdeas}" onclick="{!c.next}" class="slds-button slds-button_brand"/>
+                    </lightning:buttonGroup>
+                </lightning:tab>
+                <lightning:tab onactive="{!c.showRecentIdeas}">
+                    <aura:set attribute="label">
+                        Recent Ideas
+                    </aura:set>
+                    <center>
+                        <lightning:button variant="brand" label="Post Ideas" 
+                                          iconName="utility:light_bulb" 
+                                          iconPosition="left" 
+                                          aura:id="Recent-Ideas"
+                                          onclick="{!c.openModal}" />
+                    </center><br/>
+                    <aura:iteration items="{!v.ideaPaginationList}" var="obj" indexVar="i">
+                        
+                        <div class="slds-truncate">
+                            <a onclick="{!c.viewIdea}" class="slds-text-heading_medium" id="{!obj.Id}"> {!obj.Title} </a>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-size_3-of-4 ">
+                                <aura:if isTrue="{!obj.Body!=null}">
+                                    <lightning:formattedRichText value="{!obj.Body}"/>
+                                    <aura:set attribute="else">
+                                    	No Description
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <c:IdeaVote userId="{!v.userId}" 
+                                            Votes="{!obj.Votes}"
+                                            Idea = "{!obj}"/>
+                            </div>
+                        </div>
+                        <div id="{!obj.Id}" >
+                            <lightning:pill label="{!obj.NumComments}" >
+                                <aura:set attribute="media">
+                                    <lightning:icon iconName="utility:comments"  
+                                                    alternativeText="comments"/>
+                                </aura:set>
+                            </lightning:pill>Comments >>
+                            Posted By <a href="javascript:void(0);" > {!obj.CreatorName} </a> on <ui:outputDateTime value="{!obj.CreatedDate}"/>
+                        </div>
+                        <br/><br/>
+                    </aura:iteration>
+                    <lightning:buttonGroup >
+                        <lightning:button label="Previous" disabled="{!v.startPage == 0}"  onclick="{!c.previous}" class="slds-button slds-button_brand"/>
+                        &nbsp; &nbsp; &nbsp;
+                        <lightning:button label="Next" disabled="{!v.endPage >= v.totalIdeas}" onclick="{!c.next}" class="slds-button slds-button_brand"/>
+                    </lightning:buttonGroup>
+                </lightning:tab>
+                <lightning:tab onactive="{!c.showTopIdeas}">
+                    <aura:set attribute="label">
+                        Top All-Time
+                    </aura:set>
+                    <center>
+                        <lightning:button variant="brand" label="Post Ideas" 
+                                          iconName="utility:light_bulb" 
+                                          iconPosition="left" 
+                                          aura:id="Top-All-Time"
+                                          onclick="{!c.openModal }" />
+                    </center><br/>
+                    <aura:if isTrue="{!v.noIdeas}">
+                        <ui:message title="No Idea Found" severity="info" closable="false">
+                            No Ideas Found!
+                        </ui:message>
+                    </aura:if>
+                    <aura:iteration items="{!v.ideaPaginationList}" var="obj" indexVar="i">
+                        <div class="slds-truncate">
+                            <a onclick="{!c.viewIdea}" class="slds-text-heading_medium" id="{!obj.Id}"> {!obj.Title} </a>
+                        </div>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-size_3-of-4 ">
+                                <aura:if isTrue="{!obj.Body!=null}">
+                                    <lightning:formattedRichText value="{!obj.Body}"/>
+                                    <aura:set attribute="else">
+                                    	No Description
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                            <div class="slds-size_1-of-4">
+                                <c:IdeaVote userId="{!v.userId}" 
+                                            Votes="{!obj.Votes}"
+                                            Idea = "{!obj}"/>
+                            </div>
+                        </div>
+                        <div id="{!obj.Id}" >
+                            <lightning:pill label="{!obj.NumComments}" >
+                                <aura:set attribute="media">
+                                    <lightning:icon iconName="utility:comments"  alternativeText="comments"/>
+                                </aura:set>
+                            </lightning:pill><a href="javascript:void(0);" > Comments >> </a>
+                            Posted By <a  href="javascript:void(0);" > {!obj.CreatorName} </a> on <ui:outputDateTime value="{!obj.CreatedDate}"/>
+                        </div>
+                        <br/><br/>
+                    </aura:iteration>
+                    <lightning:buttonGroup >
+                        <lightning:button label="Previous" disabled="{!v.startPage == 0}"  onclick="{!c.previous}" class="slds-button slds-button_brand"/>
+                        &nbsp; &nbsp; &nbsp;
+                        <lightning:button label="Next" disabled="{!v.endPage >= v.totalIdeas}" onclick="{!c.next}" class="slds-button slds-button_brand"/>
+                    </lightning:buttonGroup>
+                </lightning:tab>
+                <lightning:tab onactive="{!c.showIdeasComment}">
+                    <aura:set attribute="label">
+                        Comments
+                    </aura:set>
+                    <center>
+                        <lightning:button variant="brand" label="Post Ideas" 
+                                          iconName="utility:light_bulb" 
+                                          iconPosition="left" 
+                                          value="Comments"
+                                          aura:id="Comments"
+                                          onclick="{!c.openModal }" />
+                    </center><br/>
+                    <table class="slds-table">
+                        <thead>
+                            <tr class="slds-text-title_caps">
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Last Updated By">Last Updated By</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="Idea / Most Recent Comment">Idea / Most Recent Comment</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.ideaCommentToShow}" var="ideaComment" indexVar="i">
+                                <tr>
+                                    <th scope="row" data-label="Last Updated By">
+                                        <div class="slds-truncate" title="Last Updated By">
+                                            <lightning:icon iconName="action:user" size="small" alternativeText="Indicates approval"/>
+                                            Posted By <a href="javascript:void(0);" > {!ideaComment.CreatorName} </a><br/> 
+                                            &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; on <ui:outputDateTime value="{!ideaComment.CreatedDate}"/>
+                                        </div>
+                                    </th>
+                                    <td data-label="Idea / Most Recent Comment">
+                                        <div class="slds-truncate" title="Idea / Most Recent Comment">
+                                            <div class="slds-truncate">
+                                                <a onclick="{!c.viewIdea}" id="{!ideaComment.IdeaId}"> {!ideaComment.Idea.Title} </a>
+                                                | <a onclick="{!c.viewIdea}" id="{!ideaComment.IdeaId}" > <ui:outputNumber value="{!ideaComment.Idea.NumComments}" /> Comments
+                                                </a>
+                                            </div>
+                                            <ui:outputRichText value="{!ideaComment.CommentBody}" class="slds-output" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </lightning:tab>
+            </lightning:tabset>
+        </div>
+    </aura:if>
+    <!-- open Create Idea modal -->
+    <aura:if isTrue="{!v.isOpenModal}">
+        <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="Modalbox" class="slds-modal">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header slds-p-right_large">
+                    <h2 id="header43" class="slds-text-heading--medium">Create Idea</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <div>
+                        <c:CreateIdea tabValue="{!v.tabValue}"></c:CreateIdea>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <button  type="button" class="slds-button slds-button--destructive " onclick="{!c.closeModal}">Cancel</button>&nbsp;&nbsp;
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop " aura:id="Modalbackdrop"></div>
+    </aura:if>
+    <!-- End -->
+    <aura:if isTrue="{!v.navigate}">
+        <c:ViewIdea ideaId="{!v.ideaId}" Community="{!v.CommunitySite}"/>
+    </aura:if>
+    
+</aura:component>

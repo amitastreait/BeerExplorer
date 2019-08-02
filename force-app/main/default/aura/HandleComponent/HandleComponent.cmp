@@ -1,0 +1,8 @@
+<aura:component >
+    <aura:handler name="SourceComponent" event="c:CompEvent" action="{!c.handleEvent}"
+                  phase="capture" includeFacets="true" />
+    <div class="slds-p-around_small">
+        handler Component <br/>
+        {!v.body}
+    </div>
+</aura:component>

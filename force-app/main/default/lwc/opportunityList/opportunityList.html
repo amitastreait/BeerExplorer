@@ -1,0 +1,30 @@
+<template>
+    <lightning-card title="Opportunity List" icon-name="standard:opportunity">
+            <template  for:each={oppList} for:item="opp" >
+                <div key={opp.Id} class="slds-m-around_large">
+                    <p>
+                        <lightning-input label="Id" type='text' value={opp.Id} disabled></lightning-input>
+                    </p>
+                        <p>
+                            <lightning-input label="Opportunity Name" value={opp.Name}></lightning-input>
+                        </p>
+                        <p>
+                            <lightning-input label="Amount" value={opp.Amount} type="number"></lightning-input>
+                        </p>
+                        <p>
+                            <lightning-radio-group 
+                                        data-id={opp.Id} 
+                                        type="radio" 
+                                        options={options}
+                                        value={opp.Amount} 
+                                        onchange={statusChanged}>
+                            </lightning-radio-group>
+                        </p>
+                        <p>
+                             #SELECTED Option : {opp.Amount}
+                        </p>
+                </div>
+                    
+                </template>
+    </lightning-card>
+ </template>

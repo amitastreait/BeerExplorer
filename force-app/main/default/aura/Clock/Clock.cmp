@@ -1,0 +1,24 @@
+<aura:component >
+    <aura:handler name='init' value="{!this}" action="{!c.showTime}"/>
+    <ltng:require styles="https://fonts.googleapis.com/css?family=Orbitron" />
+    <div clock="clock">
+        <p clock="clock" style="background: black;
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translateX(-50%) translateY(-50%);
+                                color: #17D4FE;
+                                font-size: 60px;
+                                font-family: Orbitron;
+                                letter-spacing: 7px;
+                                border-radius: 18px;
+                                height: 145px;
+                                width: 490px;
+                                padding-top: 21px;
+                                padding-left: 47px;">
+            <lightning:formattedText aura:id="clock" clock="clock"
+                                     value="I like salesforce.com and info.salesforce.com" />
+        </p>
+        
+    </div>
+</aura:component>

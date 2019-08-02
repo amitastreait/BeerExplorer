@@ -1,0 +1,43 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="accountObj" type="Account" default="{
+                                                              sobjectType : 'Account',
+                                                              'ShippingStreet' : '',
+                                                              'ShippingCity' : '',
+                                                              'ShippingCountry': '',
+                                                              'ShippingState' :'',
+                                                              'ShippingPostalCode' : '',
+                                                              'Name' : ''
+                                                              }"/> 
+    <aura:attribute name="fields" type="List" 
+                    default="['ShippingStreet','ShippingCity','ShippingCountry',
+                             'ShippingState','ShippingPostalCode']" />
+    <aura:attribute name="record" type="Object" 
+                    description="The record object to be displayed"/>
+    <aura:attribute name="recordError" type="String" 
+                    description="An error message bound to force:recordData"/>
+    <aura:attribute name="recordId" type="String" />
+    <force:recordData aura:id="recordEditor"
+                      recordId="{!v.recordId}"
+                      fields="{!v.fields}"
+                      targetError="{!v.recordError}"
+                      targetRecord="{!v.record}"
+                      targetFields ="{!v.accountObj}"
+                      mode="EDIT"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <c:AddressComponent sObjectType="{!v.accountObj}" 
+                        fields="{!v.fields}"
+                        streetAPIName ="ShippingStreet"
+                        recordId ="{!v.recordId}"
+                        CityAPIName ="ShippingCity"
+                        CountryAPIName="ShippingCountry"
+                        StateAPIName ="ShippingState"
+                        ZipAPIName = "ShippingPostalCode"/> 
+    <div class="slds-m-around_medium">
+        <lightning:input label="Account Name" value="{!v.accountObj.Name}" required="true" />
+        <div>
+            <lightning:button label="Save Address" variant="brand" 
+                              onclick="{!c.doSaveAddress}" />
+        </div>
+    </div> 
+</aura:component>

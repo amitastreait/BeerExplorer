@@ -1,0 +1,34 @@
+<apex:page controller="importDataFromCSVController" title="Contacts Uploader">
+    <style>
+        .controlPanel td{
+            width:200px;
+        }
+        .controlPanel{
+            margin-top:20px;
+        }
+    </style>    
+    <apex:form >                    
+        <apex:pageBlock id="controlPanel">                        
+            <table class="controlPanel fromFile">
+                <tr>
+                    <td colspan="2"><b>Upload a CSV file to save its contents as Contact records</b></td>
+                </tr>
+                <tr>
+                    <td>Upload CSV file</td><td><apex:inputFile value="{!csvFileBody}" accept="csv" contentType="text/csv" /></td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td><td><apex:commandButton value="Upload CSV" action="{!readFromFile}"/></td>
+                </tr>
+            </table>                                                             
+        </apex:pageBlock>
+        <apex:pageBlock id="dataPanel">
+            <apex:pagemessages />
+            <apex:pageblocktable value="{!lstContacts}" var="con">
+                <apex:repeat value="{!lstFieldNames}" var="fieldName">
+                    <apex:column value="{!con[fieldName]}" />
+                </apex:repeat>                
+            </apex:pageblocktable>
+            <apex:commandButton value="Save to Contacts" action="{!saveData}" rendered="{!readSuccess}" />
+        </apex:pageBlock>
+    </apex:form>        
+</apex:page>

@@ -1,0 +1,15 @@
+<aura:component implements="force:hasRecordId">
+    <aura:attribute name="input1" type="integer" description =" For First Input" />
+    <aura:attribute name="input2" type="integer"  description =" For Second Input" />
+    <aura:attribute name="outPut" type="integer"  description =" For Output" />
+    
+    <lightning:input type="number" value="{!v.input1}" label="Please Enter First Value" 
+                     required="true" />
+    <lightning:input type="number" value="{!v.input2}" label="Please Enter First Value" 
+                     required="true" />
+    The Output is: - {!v.outPut} <br/>
+     <lightning:button variant="brand" value="Component Methods" label="Add" onclick="{!c.doAdd}" />
+     <lightning:button variant="brand" value="Component Methods" label="Sub" onclick="{!c.doSub}" />
+     <lightning:button variant="brand" value="Component Methods" label="Multiply" onclick="{!c.doMul}" />
+     <lightning:button variant="brand" value="Component Methods" label="Devide" onclick="{!c.doDiv}" />
+</aura:component>

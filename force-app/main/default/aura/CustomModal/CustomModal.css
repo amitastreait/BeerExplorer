@@ -1,0 +1,6 @@
+.THIS .popoverclass {
+    min-height: 100px;
+}
+.THIS .no-pointer .pointer{
+    visibility: hidden;
+}

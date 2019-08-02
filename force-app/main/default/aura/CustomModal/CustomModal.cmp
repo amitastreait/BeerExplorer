@@ -1,0 +1,9 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <lightning:button name="modal" label="Show Modal" onclick="{!c.handleShowModal}"/>
+    
+    <lightning:button name="popover" label="Show Popover" onclick="{!c.handleShowPopover}"/>
+    <div class="mypopover" onmouseover="{!c.handleShowPopover}">
+        Popover should display if you hover over here.
+    </div>
+</aura:component>
